@@ -7,10 +7,12 @@
 
 # Project
 BIN=socket
+OUT_LIB=tcpsocket.so
 
-# Compiler
+# Compiler -fPIC
 CXX=c++
-CXX_FLAGS=-Wall
+CXX_FLAGS=-Wall -std=c++17
+LIB_FLAGS='-shared'
 LIBS=-l pthread
 
 # Directories
@@ -31,7 +33,10 @@ all: init clean socket
 socket: ${OBJECTS}
 	${CXX} ${CXX_FLAGS} ${LIBS} $^ -o ${BUILD_DIR}/$@
 
-%.o: %.c
+lib: ${OBJECTS}
+	${CXX} ${LIB_FLAGS} ${LIBS} $^ -o ${BUILD_DIR}/${OUT_LIB}
+
+%.o: %.cpp
 	${CXX} ${CXX_FLAGS} -c $^ -o $@
 
 init:
